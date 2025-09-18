@@ -20,7 +20,7 @@ import static com.example.library_management.model.StudentStatus.ACTIVE;
 @Builder
 public class Student {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -38,11 +38,11 @@ public class Student {
     private Date updatedOn;
 
     @OneToMany(mappedBy = "student") //attribute name of the column in Book class
-    @JsonIgnoreProperties("book")
+    @JsonIgnoreProperties({"student", "transactions"})
     private List<Book> bookList;
 
     @OneToMany(mappedBy = "student")
-    @JsonIgnoreProperties("transactions")
+    @JsonIgnoreProperties({"student", "book"})
     private List<Transaction> transactions;
 
     @Builder.Default

@@ -37,6 +37,7 @@ public class Book {
     @ManyToOne
     @JoinColumn
     @JsonManagedReference
+    @JsonIgnoreProperties({"bookList", "transactions"})
     private Student student;
 
     @CreationTimestamp
@@ -46,7 +47,7 @@ public class Book {
     private Date updatedOn;
 
     @OneToMany(mappedBy = "book")
-    @JsonIgnoreProperties("book")
+    @JsonIgnoreProperties({"book", "student"})
     private List<Transaction> transactions;
 
 }

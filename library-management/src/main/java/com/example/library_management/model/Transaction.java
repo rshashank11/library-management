@@ -26,12 +26,12 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn
-    @JsonIgnoreProperties("transactions")
+    @JsonIgnoreProperties({"transactions", "student"})
     private Book book;
 
     @ManyToOne
     @JoinColumn
-    @JsonIgnoreProperties("transactions")
+    @JsonIgnoreProperties({"transactions", "bookList"})
     private Student student;
 
     @Column(scale = 2)
