@@ -24,13 +24,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TransactionService {
     @Value("${student.book.max-allowance}")
-    private Integer maxAllowance;
+    public Integer maxAllowance;
 
     @Value("${book.return-duration}")
-    private Integer returnDuration;
+    public Integer returnDuration;
 
     @Value("${book.fine-per-day}")
-    private Double finePerDay;
+    public Double finePerDay;
 
     private final StudentService studentService;
 
@@ -95,20 +95,20 @@ public class TransactionService {
 
 
 
-    private Double calculateFine(Book book, Student student) {
+    public Double calculateFine(Book book, Student student) {
         Transaction transaction = this.transactionRepository.findTopByBookAndStudentAndTypeAndStatusOrderByIdDesc(book, student, TransactionType.ISSUE, Status.COMPLETED);
 
         LocalDate today = new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate issuedDate = transaction.getUpdatedOn().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         Long daysInBetween = ChronoUnit.DAYS.between(issuedDate, today);
 
-            if(daysInBetween > returnDuration) {
-                return ((daysInBetween - returnDuration) * finePerDay);
+        if(daysInBetween > returnDuration) {
+            return ((daysInBetween - returnDuration) * finePerDay);
         }
         return null;
     }
 
-    private Transaction initiateReturn(Long studentId, Long bookId) throws Exception {
+    public Transaction initiateReturn(Long studentId, Long bookId) throws Exception {
         Student student = this.studentService.getStudentDetails(studentId).getStudent();
         Book book = this.bookService.getBookById(bookId);
         if(student == null) {
